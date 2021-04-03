@@ -62,7 +62,7 @@ count(mtcars)
 select(cars, hp, mpg) %>%
   sample_n(100) %>%
   collect() %>%
-  plot()
+  plot(col="blue", type="b")
 
 # Model example
 
