@@ -39,3 +39,6 @@ libs/
 contributing_files/
 mleap_model.zip
 
+therinspark.Rcheck/
+therinspark*.tar.gz
+therinspark*.tgz
