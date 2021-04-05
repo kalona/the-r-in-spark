@@ -25,7 +25,7 @@ library(sparklyr)
 
 spark_available_versions()
 
-options(spark.install.dir = "C/spark-3.1.1-bin-hadoop2.7")
+options(spark.install.dir = "./spark-install-3_0")
 
 spark_install("3.0")
 
