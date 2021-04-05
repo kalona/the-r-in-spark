@@ -25,7 +25,7 @@ library(sparklyr)
 
 spark_available_versions()
 
-options(spark.install.dir = "./spark-install-3_0")
+options(spark.install.dir = "C/spark-3.1.1-bin-hadoop2.7")
 
 spark_install("3.0")
 
@@ -62,7 +62,7 @@ count(mtcars)
 select(cars, hp, mpg) %>%
   sample_n(100) %>%
   collect() %>%
-  plot(col="blue", type="b")
+  plot(col="blue", type="p")
 
 # Model example
 
@@ -83,6 +83,35 @@ model %>%
 spark_write_csv(cars, "cars.csv")
 
 cars <- spark_read_csv(sc, "cars.csv")
+
+install.packages("sparklyr.nested")
+
+sparklyr.nested::sdf_nest(cars, hp) %>%
+  group_by(cyl) %>%
+  summarise(data = collect_list(data))
+
+
+cars %>% spark_apply(~round(.x))
+
+# Streaming example
+
+dir.create("input")
+write.csv(mtcars, "input/cars_1.csv", row.names = F)
+
+
+stream <- stream_read_csv(sc, "input/") %>%
+  select(mpg, cyl, disp) %>%
+  stream_write_csv("output/")
+
+
+dir("output", pattern = ".csv")
+
+write.csv(mtcars, "input/cars_2.csv", row.names = F)
+
+stream_stop(stream)
+
+
+
 
 
 spark_disconnect(sc)
