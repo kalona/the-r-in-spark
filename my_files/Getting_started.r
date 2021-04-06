@@ -110,9 +110,13 @@ write.csv(mtcars, "input/cars_2.csv", row.names = F)
 
 stream_stop(stream)
 
+spark_log(sc)
 
-
-
+spark_log(sc, filter = "sparklyr")
 
 spark_disconnect(sc)
+
+spark_disconnect_all()
+
+
 
